@@ -50,7 +50,7 @@ pipeline {
             def emailResult = emailext(
                 subject: "Pipeline Status: ${currentBuild.result}",
                 body: "Pipeline execution completed. Status: ${currentBuild.result}",
-                to: 'mithunjet8@gmail.com',
+                to: 'shrijithn2004@gmail.com',
                 attachLog: true
             )
             echo "Email sending result: ${emailResult}"
