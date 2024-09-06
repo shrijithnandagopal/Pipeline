@@ -46,10 +46,14 @@ pipeline {
     }
     post {
     always {
-        emailext body: "Pipeline status: ${currentBuild.result}",
-                 subject: "Pipeline Notification: ${currentBuild.fullDisplayName}",
-                 to: 'mithunjet8@gmail.com',
-                 attachLog: true
-    }
+        script {
+            def emailResult = emailext(
+                subject: "Pipeline Status: ${currentBuild.result}",
+                body: "Pipeline execution completed. Status: ${currentBuild.result}",
+                to: 'mithunjet8@gmail.com',
+                attachLog: true
+            )
+            echo "Email sending result: ${emailResult}"
+        }
     }
 }
