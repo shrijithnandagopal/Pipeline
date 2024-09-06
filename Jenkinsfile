@@ -49,7 +49,7 @@ pipeline {
         always {
             emailext body: 'Pipeline status: ${currentBuild.result}',
                      subject: 'Pipeline Notification',
-                     to: 'your.email@example.com',
+                     to: 'shrijithn2004@gmail.com',
                      attachLog: true
         }
     }
