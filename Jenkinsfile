@@ -1,60 +1,99 @@
 pipeline {
     agent any
-    
+    environment {
+        LOG_FILE = 'pipeline.log'
+        EMAIL_RECIPIENTS = 'mithunjet8@gmail.com'
+    }
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code using Maven'
+                echo 'Building...'
+                echo 'Tool: Maven'
+               
             }
         }
-        
+
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit tests with JUnit and integration tests with Selenium'
+                echo 'Running unit and integration tests...'
+                echo 'Tool: JUnit'
+         
+            }
+            post {
+                success {
+                    emailext(
+                        to: "${EMAIL_RECIPIENTS}",
+                        subject: "Unit and Integration Tests Successful",
+                        body: "The unit and integration tests were successful.\nCheck Jenkins for more details.",
+                        attachmentsPattern: "${LOG_FILE}"
+                    )
+                }
+                failure {
+                    emailext(
+                        to: "${EMAIL_RECIPIENTS}",
+                        subject: "Unit and Integration Tests Failed",
+                        body: "The unit and integration tests failed.\nCheck Jenkins for more details.",
+                        attachmentsPattern: "${LOG_FILE}"
+                    )
+                }
             }
         }
-        
+
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing code with SonarQube'
+                echo 'Running code analysis...'
+                echo 'Tool: SonarQube'
+               
             }
         }
-        
+
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan with OWASP ZAP'
+                echo 'Running security scan...'
+                echo 'Tool: OWASP ZAP'
+            }
+            post {
+                success {
+                    emailext(
+                        to: "${EMAIL_RECIPIENTS}",
+                        subject: "Security Scan Successful",
+                        body: "The security scan was successful.\nCheck Jenkins for more details.",
+                        attachmentsPattern: "${LOG_FILE}"
+                    )
+                }
+                failure {
+                    emailext(
+                        to: "${EMAIL_RECIPIENTS}",
+                        subject: "Security Scan Failed",
+                        body: "The security scan failed.\nCheck Jenkins for more details.",
+                        attachmentsPattern: "${LOG_FILE}"
+                    )
+                }
             }
         }
-        
+
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to AWS EC2 staging server'
+                echo 'Deploying to staging...'
+                echo 'Tool: AWS CLI'
+             
             }
         }
-        
+
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment'
+                echo 'Running integration tests on staging...'
+                echo 'Tool: Custom Test Suite'
+               
             }
         }
-        
+
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to AWS EC2 production server'
+                echo 'Deploying to production...'
+                echo 'Tool: AWS CLI'
+               
             }
         }
     }
-    post {
-    always {
-        script {
-            def emailResult = emailext(
-                subject: "Pipeline Status: ${currentBuild.result}",
-                body: "Pipeline execution completed. Status: ${currentBuild.result}",
-                to: 'shrijithn2004@gmail.com',
-                attachLog: true
-            )
-            echo "Email sending result: ${emailResult}"
-        }
-    }
-}
 }
