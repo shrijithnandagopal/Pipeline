@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         LOG_FILE = 'pipeline.log'
-        EMAIL_RECIPIENTS = 'mithunjet8@gmail.com'
+        EMAIL_RECIPIENTS = 'shrijithn2004@gmail.com'
     }
     stages {
         stage('Build') {
