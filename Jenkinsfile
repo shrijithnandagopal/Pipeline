@@ -51,4 +51,5 @@ pipeline {
                  to: 'shrijithn2004@gmail.com',
                  attachLog: true
     }
+    }
 }
