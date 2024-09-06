@@ -46,11 +46,11 @@ pipeline {
     }
     
     post {
-        always {
-            emailext body: 'Pipeline status: ${currentBuild.result}',
-                     subject: 'Pipeline Notification',
-                     to: 'shrijithn2004@gmail.com',
-                     attachLog: true
-        }
+    always {
+        emailext body: "Pipeline status: ${currentBuild.result}",
+                 subject: "Pipeline Notification: ${currentBuild.fullDisplayName}",
+                 to: 'shrijithn2004@gmail.com',
+                 attachLog: true
     }
+}
 }
